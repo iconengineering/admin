@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>ICON Employee Portal</title>
+
+  <!-- CSS  -->
+  <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+<body>
+  <style>
+    body {
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1 0 auto;
+    }
+
+    .hidden, .thumb, .picker__date-display {
+       display: none;
+    }
+  </style>
+
+<header>
+  <nav class="blue-grey darken-2" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo hide-on-small-and-down">ICON Engineering, Inc.</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <div class="row">
+        <div class="col s12 l4">
+          <div id="welcome" class="col s12">
+            <h4 class="header cyan-text text-darken-2">Employee Portal</h4>
+          </div>
+          <div id="login" class="col s12">
+            <a href="#modalAdmin" id="login-button" class="btn waves-effect waves-light cyan darken-2">Log In</a>
+            <a href="#" id="logout-button" class="disabled btn waves-effect waves-light cyan darken-2">Sign Out</a>
+          </div>
+        </div>
+        <div id="myStatus" class="col s12 l8">
+          <form class="col s12">
+            <div class="input-field col s12 l6">
+              <select>
+                <option value="" disabled selected>Choose your option</option>
+                <option value="In">In</option>
+                <option value="Lunch">Lunch</option>
+                <option value="Meeting">Meeting</option>
+              </select>
+              <label>Status</label>
+            </div>
+            <div class="input-field col s12 l6">
+              <input id="detail" type="text" class="">
+              <label for="detail">Detail</label>
+            </div>
+            <div class="col s12 l6">
+              <label for="returnDate">Return Date</label>
+              <input id="returnDate" type="text" class="datepicker picker__input" readonly="" tabindex="-1" aria-haspopup="true" aria-expanded="false" aria-readonly="false" aria-owns="returnDate_root">
+            </div>
+            <div class="col s12 l6">
+              <label for="returnTime">Return Time: <span id="returnDisplay" class="grey-text text-darken-4"></span></label>
+              <input type="range" name="returnTime" id="returnTime" min="360" max="1080" step="15">
+            </div>
+          </form>
+          <div class="col s12">
+            <a href="#" id="status-button" class="disabled btn waves-effect waves-light cyan darken-2 right">Update Status</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div id="action" class="section">
+
+    </div>
+  </div>
+</main>
+
+<footer class="page-footer blue-grey darken-2">
+  <div class="footer-copyright">
+    <div class="container">
+    Made by <a class="cyan-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Auth Modal -->
+<div id="modalAdmin" class="modal">
+  <div class="modal-content">
+    <div class="row">
+      <form id="adminForm" class="col s12 l6 offset-l3">
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="email" type="email" class="validate">
+            <label for="email">Email</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="password" type="password" class="validate">
+            <label for="password">Password</label>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div id="adminFooter" class="modal-footer">
+    <a id="submit" href="#!" class="modal-action modal-close waves-effect waves-light btn cyan">Log In</a>
+  </div>
+</div>
+
+  <!--  Scripts-->
+  <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="//www.gstatic.com/firebasejs/3.7.5/firebase.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+  <script src="js/app.js"></script>
+
+  </body>
+</html>
