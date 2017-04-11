@@ -52,7 +52,7 @@ function loadCheckin() {
             }
 
               username().then( function() {
-  // add listener for admin logout
+      // add listener for admin logout
       document.querySelector('#logout-button').addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -60,11 +60,63 @@ function loadCheckin() {
           });
       });
 
+      // add listener for status update
+      document.querySelector('#status-button').addEventListener('click', function(){
+
+          var status = document.getElementById('status').value;
+          var returnTime = document.getElementById('returnDisplay').innerText;
+          var returnDate = document.getElementById('returnDate').value;
+          var details = document.getElementById('detail').value;
+          var statusData = {
+            status: status,
+            returnTime: returnTime,
+            returnDate: returnDate,
+            details: details
+          };
+
+          var updates = {};
+          updates['employees/' + displayName + '/status'] = statusData;
+
+          document.getElementById("updateForm").reset();
+          document.getElementById("returnDisplay").innerText = '';
+
+          return firebase.database().ref().update(updates);
+      });
+
+      // list all employees status
       var employees = firebase.database().ref('/employees');
       employees.orderByChild('last').on('value', function(snapshot) {
+        list.innerHTML = '';
         snapshot.forEach(function(employee) {
           var list = document.getElementById('list');
-          var listItem = '<div class="divider"></div><div><h5> ' + employee.val().first + ' ' + employee.val().last + ' - ' + employee.val().status + '</h5><p>Stuff</p></div>';
+          console.log(employee.val().status.returnTime);
+
+          if (employee.val().status.returnTime !== '' && employee.val().status.returnTime !== null && typeof(employee.val().status.returnTime) != 'undefined' || employee.val().status.returnDate !== '' && employee.val().status.returnDate !== null && typeof(employee.val().status.returnDate) != 'undefined') {
+            var returnText = 'Returning ';
+          } else {
+            var returnText = '';
+          }
+
+          if (employee.val().status.returnTime !== '' && employee.val().status.returnTime !== null && typeof(employee.val().status.returnTime) != 'undefined') {
+            var returnTime = ' at ' + employee.val().status.returnTime;
+          } else {
+            var returnTime = '';
+          }
+
+          if (employee.val().status.returnDate !== '' && employee.val().status.returnDate !== null && typeof(employee.val().status.returnDate) != 'undefined') {
+            var returnDate = employee.val().status.returnDate;
+          } else {
+            var returnDate = '';
+          }
+
+          if (employee.val().status.detail !== '' && employee.val().status.detail !=+ null && typeof(employee.val().status.detail) != 'undefined') {
+            var detail = '<p>' + employee.val().status.detail + '</p>';
+          } else {
+            var detail = '';
+          }
+
+          var listItem = '<div class="divider"></div><div><h5> ' + employee.val().first + ' ' + employee.val().last + ' - ' + employee.val().status.status +
+                         '</h5><p>' + returnText + returnDate + returnTime + '</p>' + detail + '</div>';
 
           list.insertAdjacentHTML('beforeend', listItem)
       });

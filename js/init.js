@@ -23,7 +23,7 @@ $(document).ready(function() {
 var time = document.querySelector('#returnTime');
 var timeVal = document.querySelector('#returnDisplay');
 
-timeVal.textContent = "12:00 PM";
+timeVal.textContent = "";
 
 time.oninput = function () {
         var hours1 = Math.floor(time.value / 60);
