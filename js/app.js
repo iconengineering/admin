@@ -47,9 +47,9 @@ function loadCheckin() {
                   logoutButton.className = 'btn waves-effect waves-light cyan darken-2';
                   statusButton.className = 'btn waves-effect waves-light cyan darken-2 right';
                   status.className = 'col s12 l8';
-                };
-                });
-              }
+                }
+              });
+            }
 
               username().then( function() {
   // add listener for admin logout
@@ -59,7 +59,17 @@ function loadCheckin() {
             firebase.auth().signOut();
           });
       });
-  } // end loadCheckin
+
+      var employees = firebase.database().ref('/employees');
+      employees.orderByChild('last').on('value', function(snapshot) {
+        snapshot.forEach(function(employee) {
+          var list = document.getElementById('list');
+          var listItem = '<div class="divider"></div><div><h5> ' + employee.val().first + ' ' + employee.val().last + ' - ' + employee.val().status + '</h5><p>Stuff</p></div>';
+
+          list.insertAdjacentHTML('beforeend', listItem)
+      });
+    });
+  }; // end loadCheckin
 
 // Set states for Admin/anonymous
 firebase.auth().onAuthStateChanged(function(user) {
@@ -90,6 +100,9 @@ firebase.auth().onAuthStateChanged(function(user) {
     var loginButton = document.getElementById('login-button');
     var statusButton = document.getElementById('status-button');
     var status = document.getElementById('myStatus');
+    var list = document.getElementById('list');
+
+    list.innerHTML = '';
 
     if (typeof(greeting) != 'undefined' && greeting !== null) {
       welcome.removeChild(greeting);

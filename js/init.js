@@ -11,8 +11,14 @@
   }); // end of document ready
 })(jQuery); // end of jQuery name space
 
-var status = document.querySelector('#myStatus');
-status.className = 'hidden';
+$(document).ready(function() {
+  if (firebase.auth().currentUser === null){
+  var status = document.getElementById('myStatus');
+  status.className = 'hidden';
+  } else {
+    return;
+  }
+});
 
 var time = document.querySelector('#returnTime');
 var timeVal = document.querySelector('#returnDisplay');
