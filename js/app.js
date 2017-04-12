@@ -210,12 +210,12 @@ var employees = firebase.database().ref('/employees');
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
 
-    var user = firebase.auth().currentUser;
+    var thisUser = firebase.auth().currentUser;
     // check for display name
-    if (user.displayName == null) {
-      var email = user.email;
+    if (thisUser.displayName == null) {
+      var email = thisUser.email;
       var username = email.split('@')[0];
-      user.updateProfile({
+      thisUser.updateProfile({
         displayName: username
       }).then(function() {
         // Update successful.
