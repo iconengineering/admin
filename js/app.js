@@ -34,7 +34,7 @@ function loadCheckin() {
 
     //add logout to admin modal
     var welcome = document.getElementById('welcome');
-    var greeting = '<h5 id="greeting">Hello ' + myName + '</h5>';
+    var greeting = '<h5 id="greeting" class="grey-text text-darken-2">Hello ' + myName + '</h5>';
     var logoutButton = document.getElementById('logout-button');
     var loginButton = document.getElementById('login-button');
     var statusButton = document.getElementById('status-button');
@@ -45,9 +45,9 @@ function loadCheckin() {
       return;
     } else {
       welcome.insertAdjacentHTML('beforeend',greeting);
-      loginButton.className = 'disabled btn waves-effect waves-light cyan darken-2';
-      logoutButton.className = 'btn waves-effect waves-light cyan darken-2';
-      statusButton.className = 'btn waves-effect waves-light cyan darken-2 right';
+      loginButton.className = 'disabled btn waves-effect waves-light';
+      logoutButton.className = 'btn waves-effect waves-light';
+      statusButton.className = 'btn waves-effect waves-light right';
       status.className = 'col s12 l8';
       console.log(snapshot.val().admin);
 
@@ -124,7 +124,7 @@ employees.orderByChild('last').limitToFirst(13).on('value', function(snapshot) {
       var detail = '';
     }
 
-    var listItem = '<div class="divider"></div><div class="employee-status"><h5><span class="cyan-text text-darken-2"> ' + employee.val().first + ' ' + employee.val().last + '</span> - ' + employee.val().status.status +
+    var listItem = '<div class="divider blue-grey lighten-3"></div><div class="employee-status"><h5><span class="blue-text text-darken-2"> ' + employee.val().first + ' ' + employee.val().last + '</span> - ' + employee.val().status.status +
     '</h5><p>' + returnText + returnDate + returnTime + '</p>' + detail + '</div>';
 
     list.insertAdjacentHTML('beforeend', listItem)
@@ -160,7 +160,7 @@ employees.orderByChild('last').limitToLast(13).on('value', function(snapshot) {
       var detail = '';
     }
 
-    var listItem = '<div class="divider"></div><div class="employee-status"><h5><span class="cyan-text text-darken-2"> ' + employee.val().first + ' ' + employee.val().last + '</span> - ' + employee.val().status.status +
+    var listItem = '<div class="divider blue-grey lighten-3"></div><div class="employee-status"><h5><span class="blue-text text-darken-2"> ' + employee.val().first + ' ' + employee.val().last + '</span> - ' + employee.val().status.status +
     '</h5><p>' + returnText + returnDate + returnTime + '</p>' + detail + '</div>';
 
     list2.insertAdjacentHTML('beforeend', listItem)
@@ -241,9 +241,9 @@ firebase.auth().onAuthStateChanged(function(user) {
 
     if (typeof(greeting) != 'undefined' && greeting !== null) {
       welcome.removeChild(greeting);
-      loginButton.className = 'btn waves-effect waves-light cyan darken-2';
-      logoutButton.className = 'disabled btn waves-effect waves-light cyan darken-2';
-      statusButton.className = 'disabled btn waves-effect waves-light cyan darken-2 right';
+      loginButton.className = 'btn waves-effect waves-light';
+      logoutButton.className = 'disabled btn waves-effect waves-light';
+      statusButton.className = 'disabled btn waves-effect waves-light right';
       status.className = 'hidden col s12 l8';
     } else {
       return;

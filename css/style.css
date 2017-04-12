@@ -28,6 +28,10 @@
 }
 
 .dropdown-content li > span {
-  color: #0097a7;
   padding: 6px 12px;
+}
+
+#contact-list li > .material-icons {
+  vertical-align: middle;
+  margin-right: 6px;
 }
