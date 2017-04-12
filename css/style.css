@@ -12,3 +12,22 @@
 .icon-block .material-icons {
 	font-size: inherit;
 }
+
+.employee-status h5 {
+  font-size: 1.25rem;
+  margin: .5rem 0;
+}
+
+.employee-status p {
+  margin: .5rem 0;
+  font-size: 12px;
+}
+
+.dropdown-content li {
+  min-height: 24px;
+}
+
+.dropdown-content li > span {
+  color: #0097a7;
+  padding: 6px 12px;
+}

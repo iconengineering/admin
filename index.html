@@ -29,7 +29,7 @@
 
 <header>
   <nav class="blue-grey darken-2" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo hide-on-small-and-down">ICON Engineering, Inc.</a>
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo truncate">ICON Engineering, Inc.</a>
     </div>
   </nav>
 </header>
@@ -49,29 +49,45 @@
         </div>
         <div id="myStatus" class="col s12 l8">
           <form id="updateForm" class="col s12">
-            <div class="input-field col s12 l6">
-              <select id="status">
-                <option value="" disabled selected>Choose your option</option>
-                <option value="In">In</option>
-                <option value="Lunch">Lunch</option>
-                <option value="Meeting">Meeting</option>
-              </select>
-              <label>Status</label>
+            <div class="row">
+              <div class="input-field col s12 l6">
+                <select id="status">
+                  <option value="In" disabled selected>Choose your option</option>
+                  <option value="In">In</option>
+                  <option value="Lunch">Lunch</option>
+                  <option value="Break">Break</option>
+                  <option value="Meeting">Meeting</option>
+                  <option value="At Job Site">At Job Site</option>
+                  <option value="Remote">Remote</option>
+                  <option value="Gone for the Day">Meeting</option>
+                  <option value="Sick">Sick</option>
+                  <option value="PTO">PTO</option>
+                </select>
+                <label>Status</label>
+              </div>
+              <div class="input-field col s12 l6">
+                <input id="detail" type="text" class="">
+                <label for="detail">Detail</label>
+              </div>
+              <div class="col s12 l6">
+                <label for="returnDate">Return Date</label>
+                <input id="returnDate" type="text" class="datepicker picker__input" readonly="" tabindex="-1" aria-haspopup="true" aria-expanded="false" aria-readonly="false" aria-owns="returnDate_root">
+              </div>
+              <div class="col s12 l6">
+                <label for="returnTime">Return Time: <span id="returnDisplay" class="grey-text text-darken-4"></span></label>
+                <input type="range" name="returnTime" id="returnTime" min="360" max="1080" step="15" class="cyan darken-2">
+              </div>
             </div>
-            <div class="input-field col s12 l6">
-              <input id="detail" type="text" class="">
-              <label for="detail">Detail</label>
-            </div>
-            <div class="col s12 l6">
-              <label for="returnDate">Return Date</label>
-              <input id="returnDate" type="text" class="datepicker picker__input" readonly="" tabindex="-1" aria-haspopup="true" aria-expanded="false" aria-readonly="false" aria-owns="returnDate_root">
-            </div>
-            <div class="col s12 l6">
-              <label for="returnTime">Return Time: <span id="returnDisplay" class="grey-text text-darken-4"></span></label>
-              <input type="range" name="returnTime" id="returnTime" min="360" max="1080" step="15">
+            <div class="row">
+              <div id="employeeInput" class="hidden input-field col s12 l6">
+                <select id="employee">
+                  <option id="initEmployee" value="" disabled selected>Select Employee</option>
+                </select>
+                <label>Employee</label>
+              </div>
             </div>
           </form>
-          <div class="col s12">
+          <div class="col s12 l6 offset-l6">
             <a href="#" id="status-button" class="disabled btn waves-effect waves-light cyan darken-2 right">Update Status</a>
           </div>
         </div>
@@ -80,8 +96,15 @@
   </div>
 
   <div class="container">
-    <div id="list" class="section">
-
+    <div class="row">
+      <div class="col s12 l6">
+        <div id="list" class="section">
+        </div>
+      </div>
+      <div class="col s12 l6">
+        <div id="list2" class="section">
+        </div>
+      </div>
     </div>
   </div>
 </main>
@@ -89,7 +112,7 @@
 <footer class="page-footer blue-grey darken-2">
   <div class="footer-copyright">
     <div class="container">
-    Made by <a class="cyan-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+    Made by <a class="cyan-text text-lighten-3" href="#">ICON Engineering</a>
     </div>
   </div>
 </footer>
@@ -115,7 +138,7 @@
     </div>
   </div>
   <div id="adminFooter" class="modal-footer">
-    <a id="submit" href="#!" class="modal-action modal-close waves-effect waves-light btn cyan">Log In</a>
+    <a id="submit" href="#!" class="modal-action modal-close waves-effect waves-light btn cyan darken-2">Log In</a>
   </div>
 </div>
 

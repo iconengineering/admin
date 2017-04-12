@@ -3,8 +3,15 @@
     $('.modal').modal();
     $('.button-collapse').sideNav();
     $('.datepicker').pickadate({
+       format: 'dddd, mmmm dd',
+       closeOnSelect: true,
        selectMonths: true, // Creates a dropdown to control month
-       selectYears: 15 // Creates a dropdown of 15 years to control year
+       selectYears: 15, // Creates a dropdown of 15 years to control year
+       onSet: function (ele) {
+           if(ele.select){
+                  this.close();
+           }
+        }
       });
     $('select').material_select();
 
