@@ -24,16 +24,17 @@ document.querySelector('#submit').addEventListener('click', function(e) {
   });
 });
 
+// reset password
 var auth = firebase.auth();
 document.querySelector('#reset').addEventListener('click', function(e) {
   var emailAddress = document.getElementById('resetEmail').value;
   auth.sendPasswordResetEmail(emailAddress).then(function() {
-  Materialize.toast('An email has been sent to ' + emailAddress, 4000);
-  console.log('sent');
-}, function(error) {
-  Materialize.toast('Something went wrong. Please contact the admin.', 4000);
-  console.log(emailAddress);
-});
+    Materialize.toast('An email has been sent to ' + emailAddress, 4000);
+    console.log('sent');
+  }, function(error) {
+    Materialize.toast('Something went wrong. Please contact the admin.', 4000);
+    console.log(emailAddress);
+  });
 });
 
 function loadCheckin() {
@@ -108,8 +109,6 @@ username().then( function() {
 var employees = firebase.database().ref('/employees');
 employees.orderByChild('last').limitToFirst(13).on('value', function(snapshot) {
   list.innerHTML = '';
-  var admins = ['tcarmann', 'mhaenlein', 'edennis'];
-  var currentUser = firebase.auth().currentUser.displayName;
   snapshot.forEach(function(employee) {
     var list = document.getElementById('list');
 
@@ -137,12 +136,10 @@ employees.orderByChild('last').limitToFirst(13).on('value', function(snapshot) {
       var detail = '';
     }
 
-    if (admins.indexOf(currentUser) > -1 && employee.val().status.timestamp !== '' && employee.val().status.timestamp != null && typeof(employee.val().status.timestamp) != 'undefined') {
+    if (employee.val().status.timestamp !== '' && employee.val().status.timestamp != null && typeof(employee.val().status.timestamp) != 'undefined') {
       var timestamp = '<span class="timestamp">Last Updated: ' + moment(employee.val().status.timestamp).fromNow() + '</span>';
-    } else if (admins.indexOf(currentUser) > -1) {
-      var timestamp = '<span class="timestamp">Last Updated: Never </span>';
     } else {
-      var timestamp = '';
+      var timestamp = '<span class="timestamp">Last Updated: Never </span>';
     }
 
     var listItem = '<div class="divider blue-grey lighten-3"></div><div class="employee-status"><h5><span class="blue-text text-darken-2"> ' + employee.val().first + ' ' + employee.val().last + '</span> - ' + employee.val().status.status +
@@ -154,8 +151,6 @@ employees.orderByChild('last').limitToFirst(13).on('value', function(snapshot) {
 
 employees.orderByChild('last').limitToLast(13).on('value', function(snapshot) {
   list2.innerHTML = '';
-  var admins = ['tcarmann', 'mhaenlein', 'edennis'];
-  var currentUser = firebase.auth().currentUser.displayName;
   snapshot.forEach(function(employee) {
     var list2 = document.getElementById('list2');
 
@@ -183,12 +178,10 @@ employees.orderByChild('last').limitToLast(13).on('value', function(snapshot) {
       var detail = '';
     }
 
-    if (admins.indexOf(currentUser) > -1 && employee.val().status.timestamp !== '' && employee.val().status.timestamp != null && typeof(employee.val().status.timestamp) != 'undefined') {
+    if (employee.val().status.timestamp !== '' && employee.val().status.timestamp != null && typeof(employee.val().status.timestamp) != 'undefined') {
       var timestamp = '<span class="timestamp">Last Updated: ' + moment(employee.val().status.timestamp).fromNow() + '</span>';
-    } else if (admins.indexOf(currentUser) > -1) {
-      var timestamp = '<span class="timestamp">Last Updated: Never </span>';
     } else {
-      var timestamp = '';
+      var timestamp = '<span class="timestamp">Last Updated: Never </span>';
     }
 
     var listItem = '<div class="divider blue-grey lighten-3"></div><div class="employee-status"><h5><span class="blue-text text-darken-2"> ' + employee.val().first + ' ' + employee.val().last + '</span> - ' + employee.val().status.status +
@@ -201,40 +194,40 @@ employees.orderByChild('last').limitToLast(13).on('value', function(snapshot) {
 // add listener for status update
 var employees = firebase.database().ref('/employees');
 
-  employees.orderByKey().equalTo(displayName).once('value', function(snapshot) {
-    snapshot.forEach(function(snap) {
+employees.orderByKey().equalTo(displayName).once('value', function(snapshot) {
+  snapshot.forEach(function(snap) {
 
-      document.querySelector('#status-button').addEventListener('click', function(){
+    document.querySelector('#status-button').addEventListener('click', function(){
 
-  console.log(snap.val());
-  console.log(displayName);
-  var adminCheck = snap.val().admin;
-  var status = document.getElementById('status').value;
-  var returnTime = document.getElementById('returnDisplay').innerText;
-  var returnDate = document.getElementById('returnDate').value;
-  var details = document.getElementById('detail').value;
-  var person = document.getElementById('employee').value;
-  var statusData = {
-    status: status,
-    returnTime: returnTime,
-    returnDate: returnDate,
-    details: details,
-    timestamp: firebase.database.ServerValue.TIMESTAMP
-  };
+      console.log(snap.val());
+      console.log(displayName);
+      var adminCheck = snap.val().admin;
+      var status = document.getElementById('status').value;
+      var returnTime = document.getElementById('returnDisplay').innerText;
+      var returnDate = document.getElementById('returnDate').value;
+      var details = document.getElementById('detail').value;
+      var person = document.getElementById('employee').value;
+      var statusData = {
+        status: status,
+        returnTime: returnTime,
+        returnDate: returnDate,
+        details: details,
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+      };
 
-  var updates = {};
-  if (adminCheck === true) {
-    updates['employees/' + person + '/status'] = statusData;
-  } else {
-    updates['employees/' + displayName + '/status'] = statusData;
-  }
+      var updates = {};
+      if (adminCheck === true) {
+        updates['employees/' + person + '/status'] = statusData;
+      } else {
+        updates['employees/' + displayName + '/status'] = statusData;
+      }
 
-  document.getElementById("updateForm").reset();
-  document.getElementById("returnDisplay").innerText = '';
+      document.getElementById("updateForm").reset();
+      document.getElementById("returnDisplay").innerText = '';
 
-  return firebase.database().ref().update(updates);
-});
-});
+      return firebase.database().ref().update(updates);
+    });
+  });
 });
 } // end loadCheckin
 
