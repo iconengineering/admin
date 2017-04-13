@@ -154,6 +154,7 @@
             <input id="password" type="password" class="validate">
             <label for="password">Password</label>
           </div>
+          <a href="#modalReset" id="resetPW" class="small">Forgot Password?</a>
         </div>
       </form>
     </div>
@@ -163,9 +164,29 @@
   </div>
 </div>
 
+<!-- Auth Modal -->
+<div id="modalReset" class="modal">
+  <div class="modal-content">
+    <div class="row">
+      <form id="resetForm" class="col s12 l6 offset-l3">
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="resetEmail" type="email" class="validate">
+            <label for="email">Email</label>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div id="resetFooter" class="modal-footer">
+    <a id="reset" href="#!" class="modal-action modal-close waves-effect waves-light btn">Reset Password</a>
+  </div>
+</div>
+
   <!--  Scripts-->
   <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="//www.gstatic.com/firebasejs/3.7.5/firebase.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
   <script src="js/app.js"></script>

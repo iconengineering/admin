@@ -24,6 +24,18 @@ document.querySelector('#submit').addEventListener('click', function(e) {
   });
 });
 
+var auth = firebase.auth();
+document.querySelector('#reset').addEventListener('click', function(e) {
+  var emailAddress = document.getElementById('resetEmail').value;
+  auth.sendPasswordResetEmail(emailAddress).then(function() {
+  Materialize.toast('An email has been sent to ' + emailAddress, 4000);
+  console.log('sent');
+}, function(error) {
+  Materialize.toast('Something went wrong. Please contact the admin.', 4000);
+  console.log(emailAddress);
+});
+});
+
 function loadCheckin() {
 
   var displayName = firebase.auth().currentUser.displayName;
@@ -89,7 +101,6 @@ username().then( function() {
     firebase.auth().signOut();
     var employee = document.getElementById('employeeInput');
     employee.className = 'hidden';
-    window.location.reload();
   });
 });
 
@@ -97,6 +108,8 @@ username().then( function() {
 var employees = firebase.database().ref('/employees');
 employees.orderByChild('last').limitToFirst(13).on('value', function(snapshot) {
   list.innerHTML = '';
+  var admins = ['tcarmann', 'mhaenlein', 'edennis'];
+  var currentUser = firebase.auth().currentUser.displayName;
   snapshot.forEach(function(employee) {
     var list = document.getElementById('list');
 
@@ -124,8 +137,16 @@ employees.orderByChild('last').limitToFirst(13).on('value', function(snapshot) {
       var detail = '';
     }
 
+    if (admins.indexOf(currentUser) > -1 && employee.val().status.timestamp !== '' && employee.val().status.timestamp != null && typeof(employee.val().status.timestamp) != 'undefined') {
+      var timestamp = '<span class="timestamp">Last Updated: ' + moment(employee.val().status.timestamp).fromNow() + '</span>';
+    } else if (admins.indexOf(currentUser) > -1) {
+      var timestamp = '<span class="timestamp">Last Updated: Never </span>';
+    } else {
+      var timestamp = '';
+    }
+
     var listItem = '<div class="divider blue-grey lighten-3"></div><div class="employee-status"><h5><span class="blue-text text-darken-2"> ' + employee.val().first + ' ' + employee.val().last + '</span> - ' + employee.val().status.status +
-    '</h5><p>' + returnText + returnDate + returnTime + '</p>' + detail + '</div>';
+    timestamp + '</h5><p>' + returnText + returnDate + returnTime + '</p>' + detail + '</div>';
 
     list.insertAdjacentHTML('beforeend', listItem)
   });
@@ -133,6 +154,8 @@ employees.orderByChild('last').limitToFirst(13).on('value', function(snapshot) {
 
 employees.orderByChild('last').limitToLast(13).on('value', function(snapshot) {
   list2.innerHTML = '';
+  var admins = ['tcarmann', 'mhaenlein', 'edennis'];
+  var currentUser = firebase.auth().currentUser.displayName;
   snapshot.forEach(function(employee) {
     var list2 = document.getElementById('list2');
 
@@ -160,10 +183,18 @@ employees.orderByChild('last').limitToLast(13).on('value', function(snapshot) {
       var detail = '';
     }
 
-    var listItem = '<div class="divider blue-grey lighten-3"></div><div class="employee-status"><h5><span class="blue-text text-darken-2"> ' + employee.val().first + ' ' + employee.val().last + '</span> - ' + employee.val().status.status +
-    '</h5><p>' + returnText + returnDate + returnTime + '</p>' + detail + '</div>';
+    if (admins.indexOf(currentUser) > -1 && employee.val().status.timestamp !== '' && employee.val().status.timestamp != null && typeof(employee.val().status.timestamp) != 'undefined') {
+      var timestamp = '<span class="timestamp">Last Updated: ' + moment(employee.val().status.timestamp).fromNow() + '</span>';
+    } else if (admins.indexOf(currentUser) > -1) {
+      var timestamp = '<span class="timestamp">Last Updated: Never </span>';
+    } else {
+      var timestamp = '';
+    }
 
-    list2.insertAdjacentHTML('beforeend', listItem)
+    var listItem = '<div class="divider blue-grey lighten-3"></div><div class="employee-status"><h5><span class="blue-text text-darken-2"> ' + employee.val().first + ' ' + employee.val().last + '</span> - ' + employee.val().status.status +
+    timestamp + '</h5><p>' + returnText + returnDate + returnTime + '</p>' + detail + '</div>';
+
+    list2.insertAdjacentHTML('beforeend', listItem);
   });
 });
 
@@ -187,7 +218,8 @@ var employees = firebase.database().ref('/employees');
     status: status,
     returnTime: returnTime,
     returnDate: returnDate,
-    details: details
+    details: details,
+    timestamp: firebase.database.ServerValue.TIMESTAMP
   };
 
   var updates = {};
@@ -211,6 +243,7 @@ firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
 
     var thisUser = firebase.auth().currentUser;
+    console.log(thisUser.displayName);
     // check for display name
     if (thisUser.displayName == null) {
       var email = thisUser.email;
@@ -236,8 +269,10 @@ firebase.auth().onAuthStateChanged(function(user) {
     var statusButton = document.getElementById('status-button');
     var status = document.getElementById('myStatus');
     var list = document.getElementById('list');
+    var list2 = document.getElementById('list2');
 
     list.innerHTML = '';
+    list2.innerHTML = '';
 
     if (typeof(greeting) != 'undefined' && greeting !== null) {
       welcome.removeChild(greeting);
