@@ -63,6 +63,10 @@ function loadCheckin() {
       statusButton.className = 'btn waves-effect waves-light right';
       status.className = 'col s12 l8';
 
+      if (displayName == 'mhaenlein'){
+        $('.btn').addClass('purple');
+      }
+
       if (adminCheck === true){
         var employeeInput = document.getElementById('employeeInput');
         employeeInput.className = 'input-field col s12 l6';
@@ -146,9 +150,13 @@ employees.orderByChild('last').limitToFirst(Math.ceil(listLength)).on('value', f
     } else {
       var timestamp = '<span class="timestamp">Last Updated: Never </span>';
     }
-
+  if (displayName == 'mhaenlein') {
+    var listItem = '<div class="divider blue-grey lighten-3"></div><div class="employee-status"><h5><span class="purple-text text-darken-2"> ' + employee.val().first + ' ' + employee.val().last + '</span> - ' + employee.val().status.status +
+    timestamp + '</h5><p>' + returnText + returnDate + returnTime + '</p>' + detail + '</div>';
+  } else {
     var listItem = '<div class="divider blue-grey lighten-3"></div><div class="employee-status"><h5><span class="blue-text text-darken-2"> ' + employee.val().first + ' ' + employee.val().last + '</span> - ' + employee.val().status.status +
     timestamp + '</h5><p>' + returnText + returnDate + returnTime + '</p>' + detail + '</div>';
+  }
 
     list.insertAdjacentHTML('beforeend', listItem)
   });
@@ -189,8 +197,13 @@ employees.orderByChild('last').limitToLast(Math.floor(listLength)).on('value', f
       var timestamp = '<span class="timestamp">Last Updated: Never </span>';
     }
 
-    var listItem = '<div class="divider blue-grey lighten-3"></div><div class="employee-status"><h5><span class="blue-text text-darken-2"> ' + employee.val().first + ' ' + employee.val().last + '</span> - ' + employee.val().status.status +
-    timestamp + '</h5><p>' + returnText + returnDate + returnTime + '</p>' + detail + '</div>';
+    if (displayName == 'mhaenlein') {
+      var listItem = '<div class="divider blue-grey lighten-3"></div><div class="employee-status"><h5><span class="purple-text text-darken-2"> ' + employee.val().first + ' ' + employee.val().last + '</span> - ' + employee.val().status.status +
+      timestamp + '</h5><p>' + returnText + returnDate + returnTime + '</p>' + detail + '</div>';
+    } else {
+      var listItem = '<div class="divider blue-grey lighten-3"></div><div class="employee-status"><h5><span class="blue-text text-darken-2"> ' + employee.val().first + ' ' + employee.val().last + '</span> - ' + employee.val().status.status +
+      timestamp + '</h5><p>' + returnText + returnDate + returnTime + '</p>' + detail + '</div>';
+    }
 
     list2.insertAdjacentHTML('beforeend', listItem);
   });
@@ -256,6 +269,13 @@ firebase.auth().onAuthStateChanged(function(user) {
       }, function(error) {
         // An error happened.
       });
+    } else if (thisUser.displayName == 'mhaenlein') {
+      var banner = document.getElementById('banner');
+      banner.className = "purple z-depth-1";
+      var footer = document.getElementById('footer');
+      footer.className = 'page-footer purple';
+      $('.btn').addClass('purple');
+      loadCheckin();
     } else {
       loadCheckin()
     }
