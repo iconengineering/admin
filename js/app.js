@@ -20,7 +20,7 @@ document.querySelector('#submit').addEventListener('click', function(e) {
     // Handle Errors here.
     var errorCode = error.code;
     var errorMessage = error.message;
-    // ...
+    Materialize.toast(errorMessage, 4000);
   });
 });
 
@@ -39,7 +39,7 @@ document.querySelector('#reset').addEventListener('click', function(e) {
 
 function loadCheckin() {
 
-  var displayName = firebase.auth().currentUser.displayName;
+  displayName = firebase.auth().currentUser.displayName;
 
   function username(){ return firebase.database().ref('/employees/' + displayName).once('value').then( function(snapshot) {
     var myName = snapshot.val().first;
@@ -62,7 +62,6 @@ function loadCheckin() {
       logoutButton.className = 'btn waves-effect waves-light';
       statusButton.className = 'btn waves-effect waves-light right';
       status.className = 'col s12 l8';
-      console.log(snapshot.val().admin);
 
       if (adminCheck === true){
         var employeeInput = document.getElementById('employeeInput');
@@ -101,13 +100,19 @@ username().then( function() {
     e.stopPropagation();
     firebase.auth().signOut();
     var employee = document.getElementById('employeeInput');
-    employee.className = 'hidden';
+    employee.className = 'hide';
+    delete displayName;
   });
 });
 
+firebase.database().ref('/employees').once('value').then(function(snapshot){
+  var employeeCount = snapshot.numChildren();
+  listLength = employeeCount / 2;
+  console.log(listLength);
+
 // list all employees status
 var employees = firebase.database().ref('/employees');
-employees.orderByChild('last').limitToFirst(13).on('value', function(snapshot) {
+employees.orderByChild('last').limitToFirst(Math.ceil(listLength)).on('value', function(snapshot) {
   list.innerHTML = '';
   snapshot.forEach(function(employee) {
     var list = document.getElementById('list');
@@ -149,7 +154,7 @@ employees.orderByChild('last').limitToFirst(13).on('value', function(snapshot) {
   });
 });
 
-employees.orderByChild('last').limitToLast(13).on('value', function(snapshot) {
+employees.orderByChild('last').limitToLast(Math.floor(listLength)).on('value', function(snapshot) {
   list2.innerHTML = '';
   snapshot.forEach(function(employee) {
     var list2 = document.getElementById('list2');
@@ -189,6 +194,7 @@ employees.orderByChild('last').limitToLast(13).on('value', function(snapshot) {
 
     list2.insertAdjacentHTML('beforeend', listItem);
   });
+});
 });
 
 // add listener for status update
@@ -245,9 +251,11 @@ firebase.auth().onAuthStateChanged(function(user) {
         displayName: username
       }).then(function() {
         // Update successful.
+        console.log(thisUser.displayName);
+        loadCheckin();
       }, function(error) {
         // An error happened.
-      }).then(loadCheckin());
+      });
     } else {
       loadCheckin()
     }
@@ -272,7 +280,7 @@ firebase.auth().onAuthStateChanged(function(user) {
       loginButton.className = 'btn waves-effect waves-light';
       logoutButton.className = 'disabled btn waves-effect waves-light';
       statusButton.className = 'disabled btn waves-effect waves-light right';
-      status.className = 'hidden col s12 l8';
+      status.className = 'hide col s12 l8';
     } else {
       return;
     }
