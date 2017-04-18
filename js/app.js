@@ -116,7 +116,12 @@ firebase.database().ref('/employees').once('value').then(function(snapshot){
 
 // list all employees status
 var employees = firebase.database().ref('/employees');
-employees.orderByChild('first').limitToFirst(Math.ceil(listLength)).on('value', function(snapshot) {
+if (displayName == 'mhaenlein') {
+  var order = 'first';
+} else {
+  var order = 'last';
+}
+employees.orderByChild(order).limitToFirst(Math.ceil(listLength)).on('value', function(snapshot) {
   list.innerHTML = '';
   snapshot.forEach(function(employee) {
     var list = document.getElementById('list');
@@ -162,7 +167,7 @@ employees.orderByChild('first').limitToFirst(Math.ceil(listLength)).on('value', 
   });
 });
 
-employees.orderByChild('first').limitToLast(Math.floor(listLength)).on('value', function(snapshot) {
+employees.orderByChild(order).limitToLast(Math.floor(listLength)).on('value', function(snapshot) {
   list2.innerHTML = '';
   snapshot.forEach(function(employee) {
     var list2 = document.getElementById('list2');
