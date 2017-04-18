@@ -77,7 +77,7 @@ function loadCheckin() {
         initOption.disabled = true;
 
         var employees = firebase.database().ref('/employees');
-        employees.orderByChild('last').once('value', function(snapshot) {
+        employees.orderByChild('first').once('value', function(snapshot) {
 
           snapshot.forEach(function(user) {
             var id = user.key;
@@ -116,7 +116,7 @@ firebase.database().ref('/employees').once('value').then(function(snapshot){
 
 // list all employees status
 var employees = firebase.database().ref('/employees');
-employees.orderByChild('last').limitToFirst(Math.ceil(listLength)).on('value', function(snapshot) {
+employees.orderByChild('first').limitToFirst(Math.ceil(listLength)).on('value', function(snapshot) {
   list.innerHTML = '';
   snapshot.forEach(function(employee) {
     var list = document.getElementById('list');
@@ -162,7 +162,7 @@ employees.orderByChild('last').limitToFirst(Math.ceil(listLength)).on('value', f
   });
 });
 
-employees.orderByChild('last').limitToLast(Math.floor(listLength)).on('value', function(snapshot) {
+employees.orderByChild('first').limitToLast(Math.floor(listLength)).on('value', function(snapshot) {
   list2.innerHTML = '';
   snapshot.forEach(function(employee) {
     var list2 = document.getElementById('list2');
