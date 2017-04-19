@@ -24,6 +24,15 @@ document.querySelector('#submit').addEventListener('click', function(e) {
   });
 });
 
+// add listener for admin logout
+document.querySelector('#logout-button').addEventListener('click', function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  firebase.auth().signOut();
+  var employee = document.getElementById('employeeInput');
+  employee.className = 'hide';
+});
+
 // reset password
 var auth = firebase.auth();
 document.querySelector('#reset').addEventListener('click', function(e) {
@@ -97,17 +106,7 @@ function loadCheckin() {
   });
 }
 
-username().then( function() {
-  // add listener for admin logout
-  document.querySelector('#logout-button').addEventListener('click', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    firebase.auth().signOut();
-    var employee = document.getElementById('employeeInput');
-    employee.className = 'hide';
-    delete displayName;
-  });
-});
+username();
 
 firebase.database().ref('/employees').once('value').then(function(snapshot){
   var employeeCount = snapshot.numChildren();
