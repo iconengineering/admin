@@ -112,7 +112,6 @@ username().then( function() {
 firebase.database().ref('/employees').once('value').then(function(snapshot){
   var employeeCount = snapshot.numChildren();
   listLength = employeeCount / 2;
-  console.log(listLength);
 
 // list all employees status
 var employees = firebase.database().ref('/employees');
@@ -214,14 +213,14 @@ employees.orderByChild(order).limitToLast(Math.floor(listLength)).on('value', fu
   });
 });
 });
+} // end loadCheckin
 
+document.querySelector('#status-button').addEventListener('click', function(){
 // add listener for status update
 var employees = firebase.database().ref('/employees');
 
 employees.orderByKey().equalTo(displayName).once('value', function(snapshot) {
   snapshot.forEach(function(snap) {
-
-    document.querySelector('#status-button').addEventListener('click', function(){
 
       console.log(snap.val());
       console.log(displayName);
@@ -253,7 +252,6 @@ employees.orderByKey().equalTo(displayName).once('value', function(snapshot) {
     });
   });
 });
-} // end loadCheckin
 
 // Set states for Admin/anonymous
 firebase.auth().onAuthStateChanged(function(user) {
@@ -269,7 +267,6 @@ firebase.auth().onAuthStateChanged(function(user) {
         displayName: username
       }).then(function() {
         // Update successful.
-        console.log(thisUser.displayName);
         loadCheckin();
       }, function(error) {
         // An error happened.
